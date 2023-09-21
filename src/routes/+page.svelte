@@ -4,6 +4,11 @@
 
   let width;
   let height;
+
+  let previous = 0;
+  let current = 0;
+  let next = 0;
+  let images = ["/maldives.jpg"];
 </script>
 
 <div
@@ -12,67 +17,17 @@
   bind:clientHeight={height}
 >
   <Canvas>
-    <HeroScene {width} {height} />
+    <HeroScene {width} {height} current={images[current]} />
   </Canvas>
 </div>
 <div class="absolute top-0 left-0 w-screen h-screen">
-  <h1>Welcome to SvelteKit</h1>
-  <p>
-    Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-  </p>
-
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis amet
-    laudantium mollitia odit, doloremque reprehenderit nihil voluptas! Unde
-    ducimus asperiores dolorum ab ratione, similique commodi est ipsa incidunt,
-    accusantium alias.
-  </p>
+  <div
+    class="min-h-screen px-4 flex flex-col justify-center items-center gap-2"
+  >
+    <h1 class="font-cormorantGaramond text-7xl tracking-[2rem] text-white">
+      Maldives
+    </h1>
+    <img src="/separator.svg" alt="separator" class="object-cover" />
+    <p class="font-inter text-white">Enjoy the sunny side of life</p>
+  </div>
 </div>

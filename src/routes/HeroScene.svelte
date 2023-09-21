@@ -1,12 +1,14 @@
 <script lang="ts">
-  import type * as THREE from "three";
+  import * as THREE from "three";
   import { T } from "@threlte/core";
+  import { useTexture } from "@threlte/extras";
 
   export let width: number;
   export let height: number;
 
-  const cameraDistance = 600;
+  export let current: string;
 
+  let cameraDistance = 600;
   let camera: THREE.PerspectiveCamera;
 
   function computeFov() {
@@ -33,13 +35,22 @@
     camera.lookAt(0, 0, 0);
   }}
 />
-{#await loadShader() then shader}
-  <T.Mesh position={[0, 0, 0]}>
-    <T.PlaneGeometry args={[width, height, 10, 10]} />
-    <T.ShaderMaterial
-      wireframe
-      vertexShader={shader?.vertex}
-      fragmentShader={shader?.fragment}
-    />
-  </T.Mesh>
+{#await useTexture(current) then texture}
+  {#await loadShader() then shader}
+    <T.Mesh position={[0, 0, 0]}>
+      <T.PlaneGeometry args={[width, height, 10, 10]} />
+      <T.ShaderMaterial
+        uniforms={{
+          u_resolution: { value: new THREE.Vector2(width, height) },
+          u_zoom: { value: 0.8 },
+          u_innerAngle: { value: 0.25 },
+          u_middleAngle: { value: 0.1275 },
+          u_outterAngle: { value: 0.0 },
+          colorMap: { value: texture },
+        }}
+        vertexShader={shader.vertex}
+        fragmentShader={shader.fragment}
+      />
+    </T.Mesh>
+  {/await}
 {/await}
