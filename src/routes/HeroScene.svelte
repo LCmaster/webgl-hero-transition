@@ -48,28 +48,46 @@
     ref.transparent = true;
     return {
       tick(t) {
-        ref.uniforms.u_opacity.value = map(t, 0, 0.5, 0, 1);
+        if (direction === "in")
+          ref.uniforms.u_opacity.value = map(t, 0.25, 0.75, 0, 1);
+        if (direction === "out")
+          ref.uniforms.u_opacity.value = map(t, 0.0, 0.5, 0, 1);
         if (introHasEnded) {
           const angle = direction === "in" ? t : 1 - t;
-          material.uniforms.u_zoom.value = map(angle, 0.0, 1.0, 0.75, 0.8);
+          material.uniforms.u_zoom.value = map(angle, 0.0, 1.0, 1.25, 1.0);
 
-          material.uniforms.u_innerAngle.value = map(angle, 0, 0.6, 0, 1);
-          material.uniforms.u_middleAngle.value = map(angle, 0.2, 0.8, 0, 1);
-          material.uniforms.u_outterAngle.value = map(angle, 0.4, 1, 0, 1);
+          material.uniforms.u_innerAngle.value = map(angle, 0, 0.5, 0, 1);
+          material.uniforms.u_middleAngle.value = map(angle, 0.25, 0.75, 0, 1);
+          material.uniforms.u_outterAngle.value = map(angle, 0.5, 1, 0, 1);
         }
       },
       easing: quadInOut,
       duration: 1500,
     };
   });
+
+  function getScaleFactor(
+    image: { width: number; height: number },
+    container: { width: number; height: number }
+  ) {
+    var imageRatio = image.width / image.height;
+    var containerRatio = container.width / container.height;
+
+    return imageRatio > containerRatio
+      ? container.height / image.height
+      : container.width / image.width;
+  }
 </script>
 
 <svelte:window
   on:resize={() => {
     camera.fov = computeFov();
     if (material) {
-      material.uniforms.u_aspectRatio.value = width / height;
-      material.uniforms.u_resolution.value = new THREE.Vector2(width, height);
+      material.uniforms.u_screenAspectRatio.value = width / height;
+      material.uniforms.u_screenResolution.value = new THREE.Vector2(
+        width,
+        height
+      );
     }
   }}
 />
@@ -85,19 +103,39 @@
     camera.lookAt(0, 0, 0);
   }}
 />
-{#each images as image}
+{#each images as image, i}
   {#await useTexture(image) then texture}
     {#await loadShader() then shader}
       {#if current === image}
+        {@const scaleFactor = getScaleFactor(
+          { width: texture.image.width, height: texture.image.height },
+          { width, height }
+        )}
         <T.Mesh position={[0, 0, 0]}>
-          <T.PlaneGeometry args={[width, height, 1, 1]} />
+          <T.PlaneGeometry
+            args={[
+              texture.image.width * scaleFactor,
+              texture.image.height * scaleFactor,
+              1,
+              1,
+            ]}
+          />
           <T.ShaderMaterial
             bind:ref={material}
             transparent
             uniforms={{
-              u_aspectRatio: { value: width / height },
-              u_resolution: { value: new THREE.Vector2(width, height) },
-              u_zoom: { value: 0.8 },
+              u_imageAspectRatio: {
+                value: texture.image.width / texture.image.height,
+              },
+              u_screenAspectRatio: { value: width / height },
+              u_screenResolution: { value: new THREE.Vector2(width, height) },
+              u_imageResolution: {
+                value: new THREE.Vector2(
+                  texture.image.width,
+                  texture.image.height
+                ),
+              },
+              u_zoom: { value: 1.0 },
               u_opacity: { value: 1.0 },
               u_innerAngle: { value: 0.0 },
               u_middleAngle: { value: 0.0 },
