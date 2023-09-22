@@ -54,7 +54,7 @@
           ref.uniforms.u_opacity.value = map(t, 0.0, 0.5, 0, 1);
         if (introHasEnded) {
           const angle = direction === "in" ? t : 1 - t;
-          material.uniforms.u_zoom.value = map(angle, 0.0, 1.0, 1.25, 1.0);
+          material.uniforms.u_zoom.value = map(angle, 0.0, 1.0, 1.5, 1.25);
 
           material.uniforms.u_innerAngle.value = map(angle, 0, 0.5, 0, 1);
           material.uniforms.u_middleAngle.value = map(angle, 0.25, 0.75, 0, 1);
@@ -112,14 +112,7 @@
           { width, height }
         )}
         <T.Mesh position={[0, 0, 0]}>
-          <T.PlaneGeometry
-            args={[
-              texture.image.width * scaleFactor,
-              texture.image.height * scaleFactor,
-              1,
-              1,
-            ]}
-          />
+          <T.PlaneGeometry args={[width, height, 1, 1]} />
           <T.ShaderMaterial
             bind:ref={material}
             transparent
@@ -131,11 +124,11 @@
               u_screenResolution: { value: new THREE.Vector2(width, height) },
               u_imageResolution: {
                 value: new THREE.Vector2(
-                  texture.image.width,
-                  texture.image.height
+                  texture.image.width * scaleFactor,
+                  texture.image.height * scaleFactor
                 ),
               },
-              u_zoom: { value: 1.0 },
+              u_zoom: { value: 1.25 },
               u_opacity: { value: 1.0 },
               u_innerAngle: { value: 0.0 },
               u_middleAngle: { value: 0.0 },

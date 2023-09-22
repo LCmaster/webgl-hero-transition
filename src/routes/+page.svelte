@@ -53,7 +53,7 @@
 </script>
 
 <div
-  class="fixed top-0 left-0 w-screen h-screen overflow-hidden"
+  class="fixed top-0 left-0 w-screen h-screen"
   bind:clientWidth={width}
   bind:clientHeight={height}
 >
