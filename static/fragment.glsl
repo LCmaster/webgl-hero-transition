@@ -47,7 +47,7 @@ void main(){
   // =================================== //
   // === Centered Concentric Circles === //
   // =================================== //
-  vec3 innerCircle=vec3(map(circle(vUv,.25),0.,1.,1.,0.));
+  vec3 innerCircle=vec3(map(circle(vUv,.3),0.,1.,1.,0.));
   vec3 outterCircle=vec3(map(circle(vUv,.75),0.,1.,1.,0.));
   
   vec3 overlay=map((outterCircle-innerCircle)*.25,vec3(0.),vec3(1.),vec3(1.),vec3(0.));
