@@ -44,12 +44,14 @@
 
   function next() {
     progress.set(direction * -1);
-    current = current + 1 >= destination.length - 1 ? 0 : current + 1;
+    current = (current + 1) % destination.length;
   }
 
   function previous() {
     progress.set(direction * -1);
-    current = current - 1 < 0 ? destination.length - 1 : current - 1;
+    current =
+      (current - 1 < 0 ? destination.length - 1 : current - 1) %
+      destination.length;
   }
 
   transitions();
